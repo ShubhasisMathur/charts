@@ -73,8 +73,16 @@ stages:
             inputs:
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
+                $(- task: HelmDeploy@0
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscription: 'shmat(4aff0984-efd7-4b54-9564-652d0338fa3a)'
+    azureResourceGroup: 'myResourceGroup'
+    kubernetesCluster: 'myAKSCluster'
+    namespace: 'ingress-two'
+    command: 'ls'
+    arguments: 'KUBERNETES_SERVICE_HOST=myaksclust-myresourcegroup-4aff09-1965175f.hcp.eastus.azmk8s.io')/manifests/deployment.yml
+                /root/manifests/service.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
@@ -114,8 +122,8 @@ stages:
               action: deploy
               namespace: $(k8sNamespaceForPR)
               manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
+                /root/manifests/deployment.yml
+                /root/manifests/service.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
