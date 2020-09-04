@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: shubhasismathurcharts 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: shubhasismathurcharts 
+    spec:
+      containers:
+        - name: shubhasismathurcharts 
+          image: azuredevopsshubhasis.azurecr.io/shubhasismathurcharts
+          ports:
+          - containerPort: 80
